@@ -16,7 +16,6 @@ jobs:
         with:
           python-version: '3.11'
 
-      # هذه هي الخطوة الجديدة التي ستقوم بتثبيت Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -30,8 +29,15 @@ jobs:
       - name: Build IPA with Flet
         run: yes | flet build ipa
 
+      # الخطوة الجديدة لتجميع التطبيق في ملف IPA بدون شهادة مطور
+      - name: Package Unsigned IPA
+        run: |
+          mkdir -p Payload
+          find build/ipa -name "*.app" -exec cp -R {} Payload/ \;
+          zip -qr app.ipa Payload
+
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
           name: app-ipa
-          path: build/ipa/*.ipa
+          path: app.ipa
