@@ -16,6 +16,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      # هذه هي الخطوة الجديدة التي ستقوم بتثبيت Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
